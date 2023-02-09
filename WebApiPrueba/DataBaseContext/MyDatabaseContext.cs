@@ -12,6 +12,9 @@ namespace WebApiPrueba.DataBaseContext
             optionsBuilder.UseInMemoryDatabase(databaseName: "ProductDb");
         }
         
-        public DbSet<ProductDataModel> Products { get; set; }
+        public DbSet<ProductoDataModel> Productos { get; set; }
+        public DbSet<CategoriaDataModel> Categoria { get; set; }
+
+
     }
 }

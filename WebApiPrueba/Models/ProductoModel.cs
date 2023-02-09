@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApiPrueba.DataModel;
 
 namespace WebApiPrueba.Models
 {
@@ -6,7 +7,8 @@ namespace WebApiPrueba.Models
     {
             
         public string Producto { get; set; } = string.Empty;
-        public string Categoria { get; set; } = string.Empty;
         public decimal Precio { get; set; }
+
+        public List<CategoryDataModel> Categoria { get; set; }
     }
 }
