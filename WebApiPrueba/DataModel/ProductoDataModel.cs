@@ -2,7 +2,7 @@
 
 namespace WebApiPrueba.DataModel
 {
-    public class ProductDataModel
+    public class ProductoDataModel
     {
         [Key]
         public Guid Id { get; set; }
@@ -18,7 +18,7 @@ namespace WebApiPrueba.DataModel
         //public string Categoria { get; set; } = string.Empty;
 
 
-        public List<CategoryDataModel> Categoria { get; set; }
+        public List<CategoriaDataModel> Categoria { get; set; }
 
 
         [RegularExpression(@"^\d+(\.\d{1,2})?$")]
