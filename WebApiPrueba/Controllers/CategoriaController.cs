@@ -10,7 +10,7 @@ using WebApiPrueba.Models;
 namespace WebApiPrueba.Controllers
 {
 
-
+    [Authorize]
     [Route("api/categoria")]
     [ApiController]
     public class CategoriaController : ControllerBase

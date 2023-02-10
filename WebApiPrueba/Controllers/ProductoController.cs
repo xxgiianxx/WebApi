@@ -8,7 +8,7 @@ using WebApiPrueba.Models;
 
 namespace WebApiPrueba.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/Producto")]
     [ApiController]
     public class ProductoController : ControllerBase
@@ -46,19 +46,53 @@ namespace WebApiPrueba.Controllers
                             Descripcion = a.Descripcion,
                             Precio = a.Precio,
                             Categoria = s.Descripcion,
-                            Cantidad = a.Cantidad
+                            Cantidad = a.Cantidad,
+                            CategoriaID = a.CategoriaId
 
                         };
 
             return  query.ToList();
         }
 
-
-        [Route("Obtener/{id:Guid}")]
         [HttpGet]
-        public async Task<ActionResult<ProductoDataModel>> Obtener(int id)
+        [Route("ObtenerProductoCategoria/{Id:int}")]
+        public async Task<ActionResult<ProductoCategoriaModel>> ListaProductoCategoriaCategoria(int Id)
         {
-            var producto = await _dbContext.Productos.FirstOrDefaultAsync(x => x.Id == id);
+
+
+            var query = from a in _dbContext.Productos
+                        join s in _dbContext.Categorias on a.CategoriaId equals s.CategoriaID
+                        where a.Id == Id
+                        select new ProductoCategoriaModel
+                        {
+                            Id = a.Id,
+                            Descripcion = a.Descripcion,
+                            Precio = a.Precio,
+                            Categoria = s.Descripcion,
+                            Cantidad = a.Cantidad,
+                            CategoriaID = a.CategoriaId
+
+                        };
+            ProductoCategoriaModel obj =new  ProductoCategoriaModel();
+
+            foreach (var item in query.ToList())
+            {
+                obj.Id = item.Id;
+                obj.Descripcion = item.Descripcion;
+                obj.CategoriaID = item.CategoriaID;
+                obj.Cantidad = item.Cantidad;
+                obj.Categoria = item.Categoria;
+                obj.Precio = item.Precio;
+            }
+
+            return obj;
+        }
+
+        [Route("Obtener/{Id:int}")]
+        [HttpGet]
+        public async Task<ActionResult<ProductoDataModel>> Obtener(int Id)
+        {
+            var producto = await _dbContext.Productos.FirstOrDefaultAsync(x => x.Id == Id);
             if (producto == null)
             {
                 return NotFound();
@@ -92,11 +126,11 @@ namespace WebApiPrueba.Controllers
              return  Ok();
         }
 
-        [Route("ModificarProducto/{id:int}")]
+        [Route("ModificarProducto/{Id:int}")]
         [HttpPut]
-        public async Task<IActionResult> ModificarProducto(ProductoModel obj, int id ) {
+        public async Task<IActionResult> ModificarProducto(ProductoModel obj, int Id) {
 
-            if (obj.Id != id)
+            if (obj.Id != Id)
             {
                 return BadRequest("El Id del Producto no coincide con el Id de la url");
             }
@@ -112,18 +146,18 @@ namespace WebApiPrueba.Controllers
             return Ok();
         }
 
-        [Route("EliminarProducto/{id:Guid}")]
+        [Route("EliminarProducto/{Id:int}")]
         [HttpDelete]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Eliminar(int Id)
         {
 
-            var existeProducto = await _dbContext.Productos.AnyAsync(x => x.Id == id);
+            var existeProducto = await _dbContext.Productos.AnyAsync(x => x.Id == Id);
             if (!existeProducto)
             {
-                return NotFound($"La Producto con Id:{id}" + " No Existe");
+                return NotFound($"La Producto con Id:{Id}" + " No Existe");
             }
 
-            _dbContext.Remove(new ProductoDataModel() { Id= id});
+            _dbContext.Remove(new ProductoDataModel() { Id = Id });
             await _dbContext.SaveChangesAsync();    
             return Ok();
         }
