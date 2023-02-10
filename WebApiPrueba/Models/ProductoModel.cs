@@ -5,10 +5,14 @@ namespace WebApiPrueba.Models
 {
     public class ProductoModel
     {
-            
-        public string Producto { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public string Descripcion { get; set; } = string.Empty;
         public decimal Precio { get; set; }
 
-        public List<CategoriaDataModel> Categoria { get; set; }
+        public int Cantidad { get; set; }
+        public int CategoriaID { get; set; }
+
+
+
     }
 }

@@ -1,22 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApiPrueba.DataModel
 {
     public class CategoriaDataModel
     {
+     
 
         [Key]
-        public Guid Id { get; set; }
+        [Column("CategoriaID")]
+        public int CategoriaID { get; set; }
 
 
-        [Required]
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "Este Campo solo permite 10 caracteres")]
-        public string Categoria { get; set; } = string.Empty;
-
-        public int ProductoID { get; set; }
-
-        public ProductoDataModel producto { get; set; }  
-
+        public string Descripcion { get; set; } = string.Empty;
+        [JsonProperty("Productos")]
+        public virtual List<ProductoDataModel> Productos { get; set; } 
 
     }
 }
